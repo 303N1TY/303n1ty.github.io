@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!--
+  Source of assets/img/og.png (1200×630 share card). Regenerate with:
+  chrome --headless=new --allow-file-access-from-files --hide-scrollbars --window-size=1200,630
+         --virtual-time-budget=3000 --screenshot=assets/img/og.png tools/og.html
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @font-face { font-family: "Clash Display"; font-weight: 700; src: url("../assets/fonts/clash-display-700.woff2") format("woff2"); }
+  @font-face { font-family: "JetBrains Mono"; font-weight: 300 800; src: url("../assets/fonts/jetbrains-mono-var.woff2") format("woff2"); }
+  @font-face { font-family: "JetBrains Mono"; font-weight: 300; font-style: italic; src: url("../assets/fonts/jetbrains-mono-300-italic.woff2") format("woff2"); }
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: #030504; }
+  canvas { display: block; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1200" height="630"></canvas>
+<script>
+(async () => {
+  await document.fonts.load('700 100px "Clash Display"');
+  await document.fonts.load('500 16px "JetBrains Mono"');
+  const W = 1200, H = 630, c = document.getElementById("c"), g = c.getContext("2d");
+  const G = "ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ0123456789Z:.=*+-<>";
+  let seed = 303;
+  const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+  const pick = (s) => s[(rnd() * s.length) | 0];
+
+  // rain: faint columns, a few brighter heads
+  const CELL = 18;
+  g.font = `500 ${CELL * 0.8}px "JetBrains Mono", monospace`;
+  g.textAlign = "center"; g.textBaseline = "middle";
+  for (let x = CELL / 2; x < W; x += CELL) {
+    const head = rnd() * H * 1.4, len = 120 + rnd() * 320;
+    for (let y = CELL / 2; y < H; y += CELL) {
+      const d = head - y;
+      if (d < 0 || d > len) { if (rnd() < 0.04) { g.fillStyle = "rgba(60,255,143,.07)"; g.fillText(pick(G), x, y); } continue; }
+      const a = d < CELL ? 0.9 : 0.35 * (1 - d / len);
+      g.fillStyle = d < CELL ? `rgba(210,255,225,${a})` : `rgba(60,255,143,${a})`;
+      g.fillText(pick(G), x, y);
+    }
+  }
+
+  // "303" as a glyph field, like the hero: sample the word, draw a dense grid of glyphs inside it
+  const m = document.createElement("canvas"); m.width = W; m.height = H;
+  const mg = m.getContext("2d");
+  mg.fillStyle = "#fff"; mg.textAlign = "center"; mg.textBaseline = "alphabetic";
+  mg.font = '700 380px "Clash Display"';
+  mg.fillText("303", W / 2, 400);
+  const mask = mg.getImageData(0, 0, W, H).data;
+  g.fillStyle = "#030504";
+  g.globalAlpha = 0.82;
+  g.fillRect(0, 70, W, 360);
+  g.globalAlpha = 1;
+  const S = 11, RAMP = " .:-=+*#%@";
+  g.font = `600 ${S}px "JetBrains Mono", monospace`;
+  for (let y = S / 2; y < H; y += S) for (let x = S / 2; x < W; x += S) {
+    const v = mask[((y | 0) * W + (x | 0)) * 4] / 255;
+    if (v < 0.5) continue;
+    const k = 0.55 + 0.45 * Math.sin(x * 0.011 + y * 0.017);
+    g.fillStyle = `rgba(60,255,143,${0.55 + 0.45 * k})`;
+    g.fillText(RAMP[Math.min(RAMP.length - 1, 4 + ((k * 6) | 0))], x, y);
+  }
+
+  // type
+  g.textAlign = "left"; g.textBaseline = "alphabetic";
+  g.fillStyle = "#e6ece7";
+  g.font = '500 22px "JetBrains Mono", monospace';
+  g.fillText("~/303", 64, 72);
+  g.fillStyle = "#3cff8f";
+  g.fillText("●", 1100, 72);
+  g.fillStyle = "rgba(3,5,4,.88)";
+  g.fillRect(0, 470, W, H - 470);
+  g.strokeStyle = "rgba(230,236,231,.14)";
+  g.beginPath(); g.moveTo(64, 488); g.lineTo(W - 64, 488); g.stroke();
+  g.fillStyle = "#e6ece7";
+  g.font = '700 50px "Clash Display"';
+  g.fillText("software engineer", 64, 556);
+  g.font = 'italic 300 26px "JetBrains Mono", monospace';
+  g.fillStyle = "#3cff8f";
+  g.fillText("patiently, precisely, obsessively.", 64, 596);
+  g.textAlign = "right";
+  g.font = '400 18px "JetBrains Mono", monospace';
+  g.fillStyle = "#6c7b71";
+  g.fillText("303n1ty.github.io", W - 64, 596);
+  document.title = "ready";
+})();
+</script>
+</body>
+</html>

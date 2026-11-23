@@ -1,0 +1,90 @@
+/*
+ * The choice: first visit only, the loader ends on two pills.
+ * Blue = English, red = Français. Lives inside #loader (sections/gate.js).
+ */
+.gate {
+  position: absolute; inset: 0; z-index: 2;
+  display: grid; place-content: center; justify-items: center; gap: clamp(36px, 7vh, 72px);
+  padding: var(--gutter); text-align: center;
+}
+.gate[hidden] { display: none; }
+.gate__line { display: grid; gap: 6px; }
+.gate__line span { font: 600 clamp(28px, 4.2vw, 64px)/1 var(--display); word-spacing: .12em; }
+.gate__line span + span { font: italic 300 clamp(18px, 2.2vw, 32px)/1.2 var(--mono); color: var(--muted); letter-spacing: -.04em; }
+.gate__hint { font-size: var(--t-xs); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+
+.gate__pills { display: flex; gap: clamp(40px, 12vw, 200px); }
+
+.pill {
+  --c1: #9ab8ff; --c2: var(--pill-blue); --c3: #0b2a86; --glow: rgba(47, 107, 255, .45); --tilt: -22deg;
+  display: grid; justify-items: center; gap: 22px; padding: 18px; cursor: pointer;
+  background: none; border: 0; color: var(--fg); border-radius: 24px;
+}
+.pill--red { --c1: #ffb1b6; --c2: var(--pill-red); --c3: #7d0510; --glow: rgba(255, 45, 61, .45); --tilt: 22deg; }
+
+.pill__body {
+  position: relative; display: block; width: clamp(110px, 13vw, 190px); aspect-ratio: 2.5;
+  border-radius: 999px; rotate: var(--tilt);
+  translate: calc(var(--px, 0) * 14px) calc(var(--py, 0) * 10px);
+  background:
+    radial-gradient(120% 90% at 50% 18%, var(--c1) 0%, transparent 46%),
+    linear-gradient(180deg, var(--c2) 0%, var(--c2) 40%, var(--c3) 100%);
+  box-shadow:
+    inset 0 -10px 18px rgba(0, 0, 0, .35),
+    inset 0 2px 0 rgba(255, 255, 255, .35),
+    0 30px 70px -10px var(--glow);
+  animation: pill-float 3.6s ease-in-out infinite;
+  transition: scale .6s var(--ease), box-shadow .6s var(--ease), filter .6s var(--ease);
+}
+.pill--red .pill__body { animation-delay: -1.8s; }
+/* specular highlight and the seam between the two halves of the capsule */
+.pill__body::before {
+  content: ""; position: absolute; left: 14%; right: 14%; top: 10%; height: 26%;
+  border-radius: 999px; background: linear-gradient(180deg, rgba(255, 255, 255, .85), rgba(255, 255, 255, 0));
+  filter: blur(1px);
+}
+.pill__body::after {
+  content: ""; position: absolute; top: 6%; bottom: 6%; left: 50%; width: 1px;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, .35), transparent);
+}
+@keyframes pill-float { 50% { transform: translateY(-10px); } }
+
+.pill__label { font: 600 clamp(20px, 2vw, 30px)/1 var(--display); letter-spacing: -.01em; }
+.pill__sub { margin-top: -14px; font-size: var(--t-xs); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+
+.pill:hover .pill__body, .pill:focus-visible .pill__body {
+  scale: 1.08; box-shadow: inset 0 -10px 18px rgba(0, 0, 0, .35), inset 0 2px 0 rgba(255, 255, 255, .35), 0 40px 110px 0 var(--glow);
+}
+.pill:focus-visible { outline: none; }
+.pill:focus-visible .pill__label { text-decoration: underline 1px; text-underline-offset: 8px; }
+.gate__pills:has(.pill:hover) .pill:not(:hover) .pill__body { filter: saturate(.3) brightness(.6); }
+
+/* after the choice */
+.gate.is-chosen .pill:not(.is-picked) { opacity: 0; transition: opacity .4s; }
+.gate.is-chosen .pill.is-picked .pill__body { scale: 1.5; animation-play-state: paused; }
+.gate.is-chosen :is(.gate__line, .gate__hint) { opacity: 0; transition: opacity .4s; }
+
+#loader.is-choosing :is(.loader__label, .loader__count, .loader__bar) { opacity: 0; transition: opacity .5s var(--ease); }
+
+/* nav language switch */
+.nav__lang {
+  display: flex; align-items: center; gap: 8px; padding: 6px 4px; cursor: pointer;
+  background: none; border: 0; color: #fff; font-size: var(--t-xs); letter-spacing: .06em;
+}
+.nav__lang span { opacity: .45; transition: opacity .3s; }
+.nav__lang span.is-on { opacity: 1; }
+.nav__lang i { width: 14px; height: 6px; border-radius: 99px; background: linear-gradient(90deg, var(--pill-blue) 50%, var(--pill-red) 50%); }
+.nav__lang:hover span { opacity: 1; }
+
+@media (max-width: 600px) {
+  .gate__pills { gap: 28px; }
+  .pill { padding: 8px; }
+}
+@media (prefers-reduced-motion: reduce) { .pill__body { animation: none; } }
+
+/* entrance */
+.gate:not([hidden]) :is(.gate__line, .pill, .gate__hint) { animation: gate-in 1.1s var(--ease) both; }
+.gate:not([hidden]) .pill--blue { animation-delay: .15s; }
+.gate:not([hidden]) .pill--red { animation-delay: .3s; }
+.gate:not([hidden]) .gate__hint { animation-delay: .5s; }
+@keyframes gate-in { from { opacity: 0; transform: translateY(24px); filter: blur(6px); } }

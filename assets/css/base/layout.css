@@ -1,0 +1,43 @@
+/* Section shell, labels, titles, reveal. */
+.skip {
+  position: fixed; left: 12px; top: -60px; z-index: 300; padding: 10px 14px;
+  background: var(--g); color: #000;
+}
+.skip:focus { top: 12px; }
+
+main, .footer { position: relative; z-index: 2; }
+
+.section { padding: clamp(110px, 16vh, 200px) var(--gutter); border-top: 1px solid var(--line); }
+
+.label {
+  font-size: var(--t-xs); letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+}
+.label::before { content: "■ "; color: var(--g); }
+
+.section__head {
+  display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: 24px var(--gutter);
+  margin-bottom: clamp(56px, 9vh, 110px); align-items: start;
+}
+.section__head .label { padding-top: .9em; }
+.section__title {
+  font: 600 var(--t-xl)/.92 var(--display); letter-spacing: -.005em; word-spacing: .12em;
+}
+.section__title em { font: italic 300 .8em/1 var(--mono); letter-spacing: -.06em; }
+
+/* SplitText line masks (effects/titles.js) */
+.line-mask { padding-bottom: .06em; margin-bottom: -.06em; }
+
+/* reveal: a line-wipe from below, no blur soup */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s var(--ease), transform 1.1s var(--ease); }
+.reveal.is-in { opacity: 1; transform: none; }
+
+.footer {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 32px;
+  padding: 28px var(--gutter); border-top: 1px solid var(--line);
+  font-size: var(--t-xs); color: var(--muted);
+}
+
+@media (max-width: 860px) {
+  .section__head { grid-template-columns: 1fr; }
+  .section__head .label { padding-top: 0; }
+}

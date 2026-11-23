@@ -1,0 +1,41 @@
+/*
+ * Cursor (effects/cursor.js): terminal caret + trailing ring, difference-blended so it reads on black and on the white construct.
+ * The native cursor is hidden only once the custom one has moved (html.has-cursor), and comes back over text fields and modals.
+ */
+html.has-cursor, html.has-cursor * { cursor: none; }
+html.has-cursor :is(input, textarea, [contenteditable]) { cursor: text; }
+html.has-cursor:has(dialog[open]) * { cursor: auto; }
+html:has(dialog[open]) .cursor { opacity: 0; }
+
+.cursor { position: fixed; inset: 0; z-index: 10000; pointer-events: none; mix-blend-mode: difference; transition: opacity .3s; }
+.cursor.is-out, .cursor.is-text, html:not(.has-cursor) .cursor { opacity: 0; }
+.cursor.has-label { mix-blend-mode: normal; }
+
+.cursor__caret, .cursor__ring, .cursor__label { position: absolute; left: 0; top: 0; }
+.cursor__caret {
+  width: 9px; height: 18px; background: #fff;
+  translate: calc(var(--x) - 2px) calc(var(--y) - 4px);
+  transition: scale .3s var(--ease), opacity .2s;
+}
+.cursor.is-idle .cursor__caret { animation: caret-blink 1.05s steps(1) infinite; }
+@keyframes caret-blink { 50% { opacity: 0; } }
+.cursor.is-down .cursor__caret { scale: .6; }
+
+.cursor__ring {
+  width: 46px; height: 46px; margin: -23px 0 0 -23px; border-radius: 50%; border: 1px solid #fff;
+  translate: var(--rx) var(--ry); scale: .2; opacity: 0;
+  transition: scale .45s var(--ease), opacity .3s, background-color .3s, border-color .3s;
+}
+.cursor.is-hot .cursor__ring { scale: 1; opacity: 1; }
+.cursor.is-hot .cursor__caret { scale: 0; }
+.cursor.is-hot.is-down .cursor__ring { scale: .85; }
+
+.cursor.has-label .cursor__ring { scale: 2; background: var(--g); border-color: var(--g); }
+.cursor__label {
+  translate: var(--rx) var(--ry); transform: translate(-50%, -50%); opacity: 0;
+  font: 500 11px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: #000; white-space: nowrap;
+  transition: opacity .25s;
+}
+.cursor.has-label .cursor__label { opacity: 1; transition-delay: .1s; }
+.is-construct .cursor.has-label .cursor__label { color: #fff; }
+

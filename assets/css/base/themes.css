@@ -1,0 +1,2 @@
+/* Konami code / `redpill` command */
+body.red-pill { --g: #ff2a4f; --g-rgb: 255, 42, 79; --g-dim: rgba(255, 42, 79, .55); --g-faint: rgba(255, 42, 79, .08); }

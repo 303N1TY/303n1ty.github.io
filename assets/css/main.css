@@ -1,0 +1,30 @@
+/*
+ * Stylesheet entry point. Cascade layers: a later layer always wins.
+ */
+@layer tokens, base, layout, components, sections, themes, utilities;
+
+@import url("base/tokens.css") layer(tokens);
+@import url("base/fonts.css") layer(base);
+@import url("base/reset.css") layer(base);
+@import url("base/layout.css") layer(layout);
+
+@import url("components/nav.css") layer(components);
+@import url("components/cmd.css") layer(components);
+@import url("components/loader.css") layer(components);
+@import url("components/button.css") layer(components);
+@import url("components/gate.css") layer(components);
+@import url("components/field.css") layer(components);
+@import url("components/case.css") layer(components);
+@import url("components/cursor.css") layer(components);
+
+@import url("sections/hero.css") layer(sections);
+@import url("sections/manifesto.css") layer(sections);
+@import url("sections/about.css") layer(sections);
+@import url("sections/journey.css") layer(sections);
+@import url("sections/skills.css") layer(sections);
+@import url("sections/projects.css") layer(sections);
+@import url("sections/contact.css") layer(sections);
+
+@import url("base/construct.css") layer(themes);
+@import url("base/themes.css") layer(themes);
+@import url("base/utilities.css") layer(utilities);

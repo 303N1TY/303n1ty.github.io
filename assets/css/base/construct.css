@@ -1,0 +1,25 @@
+/*
+ * The construct: the white void. While a [data-construct] section holds the middle of the
+ * viewport, body gets .is-construct (sections/construct.js): the tokens flip to ink on white,
+ * and the glyph field fades to white with it (effects/field.js, uWhite).
+ * Registered tokens interpolate, so the whole page fades instead of snapping.
+ */
+@property --fg { syntax: "<color>"; inherits: true; initial-value: #e6ece7; }
+@property --muted { syntax: "<color>"; inherits: true; initial-value: #6c7b71; }
+@property --line { syntax: "<color>"; inherits: true; initial-value: rgba(230, 236, 231, .1); }
+@property --g { syntax: "<color>"; inherits: true; initial-value: #3cff8f; }
+
+body { transition: --fg .9s var(--ease), --muted .9s var(--ease), --line .9s var(--ease), --g .9s var(--ease); }
+
+body.is-construct {
+  --fg: var(--ink);
+  --muted: #616562;
+  --line: rgba(11, 13, 12, .14);
+  --g: #0a7a3d; /* phosphor would vanish on white: a deep green keeps the accent readable */
+}
+.is-construct .work:hover, .is-construct .work:focus-visible { color: var(--white); }
+.is-construct .work:hover :is(.work__n, .work__tags, .work__desc),
+.is-construct .work:focus-visible :is(.work__n, .work__tags, .work__desc) { color: rgba(243, 243, 239, .75); }
+.is-construct .work::before { background: var(--ink); }
+/* the nav blends with `difference`: pick the colour that lands on the deep green over white */
+.is-construct .nav__path b { color: #e979b2; }

@@ -1,0 +1,12 @@
+.manifesto { position: relative; height: 260vh; border-top: 1px solid var(--line); }
+.manifesto__sticky {
+  position: sticky; top: 0; height: 100vh; display: grid; align-content: center; gap: 40px;
+  padding: 0 var(--gutter);
+}
+.manifesto__text {
+  font: 500 var(--t-lg)/1.15 var(--display); letter-spacing: 0; word-spacing: .1em; max-width: 1200px;
+}
+.manifesto__text .w { color: var(--faint); transition: color .4s; }
+.manifesto__text .w.is-lit { color: var(--fg); }
+.manifesto__text .w.is-key.is-lit { color: var(--g); }
+@media (max-width: 760px) { .manifesto { height: 200vh; } }

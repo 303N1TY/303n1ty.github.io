@@ -1,0 +1,100 @@
+/*
+ * Case study: a full-screen page in the construct, opened from a project row with a
+ * View Transition (sections/case.js). The project title morphs into the case title.
+ */
+.case {
+  position: fixed; inset: 0; z-index: 150; overflow-y: auto; overscroll-behavior: contain;
+  background: var(--white); color: var(--ink);
+  --fg: var(--ink); --muted: #616562; --line: rgba(11, 13, 12, .14); --g: #0a7a3d;
+}
+.case[hidden] { display: none; }
+.case .label { color: var(--muted); }
+
+.case__bar {
+  position: sticky; top: 0; z-index: 2; display: flex; justify-content: space-between; align-items: center;
+  height: 64px; padding: 0 var(--gutter); font-size: var(--t-xs);
+  background: color-mix(in srgb, var(--white) 82%, transparent); backdrop-filter: blur(8px);
+}
+.case__back { background: none; border: 0; color: inherit; cursor: pointer; font-size: var(--t-xs); padding: 8px 0; }
+.case__back span, .case__live { background: linear-gradient(currentColor 0 0) 0 100% / 0 1px no-repeat; transition: background-size .5s var(--ease); }
+.case__back:hover span, .case__live:hover { background-size: 100% 1px; }
+
+.case__hero { padding: clamp(60px, 14vh, 160px) var(--gutter) clamp(40px, 8vh, 90px); }
+.case__title {
+  margin: 18px 0 28px; font: 600 var(--t-xxl)/.85 var(--display); letter-spacing: -.01em;
+  view-transition-name: none;
+}
+.case__lede { max-width: 30ch; font: 500 var(--t-lg)/1.12 var(--display); word-spacing: .08em; }
+.case__lede em { font: italic 300 .86em/1 var(--mono); letter-spacing: -.05em; color: var(--g); }
+.case__meta { display: flex; flex-wrap: wrap; gap: 18px 56px; margin-top: 48px; font-size: var(--t-sm); }
+.case__meta dt { font-size: var(--t-xs); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+/* five cards fanned like a fresh booster */
+.case__fan {
+  display: flex; justify-content: center; padding: 40px var(--gutter) 90px; overflow: hidden;
+}
+.case__fan img {
+  width: clamp(120px, 17vw, 249px); height: auto; margin: 0 clamp(-46px, -3.2vw, -18px);
+  filter: drop-shadow(0 30px 40px rgba(11, 13, 12, .28));
+  rotate: calc(var(--i) * 7deg); translate: 0 calc(var(--d) * 26px);
+  transition: rotate .7s var(--ease), translate .7s var(--ease), scale .7s var(--ease);
+}
+.case__fan img:nth-child(1) { --i: -2; --d: 4; }
+.case__fan img:nth-child(2) { --i: -1; --d: 1; }
+.case__fan img:nth-child(3) { --i: 0; --d: 0; z-index: 1; }
+.case__fan img:nth-child(4) { --i: 1; --d: 1; }
+.case__fan img:nth-child(5) { --i: 2; --d: 4; }
+.case__fan:hover img { rotate: calc(var(--i) * 11deg); translate: calc(var(--i) * 30px) calc(var(--d) * 34px); }
+.case__fan img:hover { scale: 1.06; z-index: 2; }
+
+.case__nums {
+  list-style: none; display: grid; grid-template-columns: repeat(4, 1fr);
+  margin: 0 var(--gutter); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+}
+.case__nums li { display: grid; gap: 10px; padding: 34px 24px 30px 0; }
+.case__nums li + li { padding-left: 24px; border-left: 1px solid var(--line); }
+.case__nums b { font: 600 var(--t-lg)/1 var(--display); }
+.case__nums span { font-size: var(--t-xs); color: var(--muted); }
+
+.case__block { padding: clamp(90px, 14vh, 170px) var(--gutter) 0; }
+.case__h { font: 600 var(--t-xl)/.92 var(--display); word-spacing: .12em; margin-bottom: 36px; }
+.case__h em { font: italic 300 .8em/1 var(--mono); letter-spacing: -.06em; color: var(--g); }
+.case__p { max-width: 58ch; font-size: var(--t-md); line-height: 1.6; color: #3a3e3b; }
+
+.case__rarities { list-style: none; display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; margin-top: 64px; }
+.case__rarities li { display: grid; gap: 14px; justify-items: center; }
+.case__rarities img {
+  width: 100%; max-width: 220px; height: auto; transition: translate .5s var(--ease), filter .5s var(--ease);
+  filter: drop-shadow(0 14px 22px rgba(11, 13, 12, .18));
+}
+.case__rarities li:hover img { translate: 0 -10px; filter: drop-shadow(0 26px 30px rgba(11, 13, 12, .28)); }
+.case__rarities span { font-size: var(--t-xs); letter-spacing: .12em; text-transform: uppercase; }
+.case__rarities i { font-style: normal; color: var(--muted); }
+
+.case__cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; border-top: 1px solid var(--line); padding-top: 34px; }
+.case__cols .case__p { font-size: var(--t-sm); margin-top: 12px; }
+
+.case__end {
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 30px;
+  padding: clamp(110px, 18vh, 220px) var(--gutter) 48px;
+}
+.case__cta { font: 600 var(--t-xl)/.9 var(--display); transition: color .4s; }
+.case__cta:hover { color: var(--g); }
+
+@media (max-width: 860px) {
+  .case__nums { grid-template-columns: repeat(2, 1fr); }
+  .case__nums li:nth-child(3) { padding-left: 0; border-left: 0; }
+  .case__nums li:nth-child(n + 3) { border-top: 1px solid var(--line); }
+  .case__rarities { grid-template-columns: repeat(3, 1fr); }
+  .case__cols { grid-template-columns: 1fr; }
+  .case__title { font-size: clamp(40px, 13vw, 120px); }
+}
+
+/* view transitions: the case rises from below like a sheet; closing lets it fall away */
+::view-transition-group(case-title) { animation-duration: .9s; animation-timing-function: cubic-bezier(.7, 0, .2, 1); }
+::view-transition-old(root) { animation: none; }
+::view-transition-new(root) { animation: case-in .9s cubic-bezier(.7, 0, .2, 1); }
+html.case-closing::view-transition-old(root) { z-index: 1; animation: case-out .8s cubic-bezier(.7, 0, .2, 1) forwards; }
+html.case-closing::view-transition-new(root) { animation: none; }
+@keyframes case-in { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0); } }
+@keyframes case-out { from { clip-path: inset(0); } to { clip-path: inset(0 0 100% 0); } }

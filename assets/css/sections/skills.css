@@ -1,0 +1,36 @@
+.stack { border-top: 1px solid var(--line); }
+.stack__row {
+  display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: var(--gutter);
+  padding: 28px 0; border-bottom: 1px solid var(--line); align-items: baseline;
+}
+/* `ls -la` line: drwxr-xr-x 08 303 code/ */
+.stack__ls {
+  display: flex; gap: 1.2ch; font-size: var(--t-xs); font-weight: 400; letter-spacing: .08em; color: var(--muted);
+  white-space: nowrap;
+}
+.stack__ls b { font-weight: 500; color: var(--g); }
+.stack__row p { font: 500 clamp(24px, 2.8vw, 44px)/1.2 var(--display); word-spacing: .1em; }
+.stack__row small { font-size: .4em; color: var(--g); letter-spacing: .05em; vertical-align: super; font-weight: 400; }
+@media (max-width: 860px) {
+  .stack__row { grid-template-columns: 1fr; gap: 10px; }
+  .stack__perm { display: none; }
+}
+
+/* marquee mode (sections/stack.js): the list becomes a full-bleed band of huge words */
+.stack.has-mq .stack__row { display: block; padding: 22px 0 0; overflow: hidden; margin-inline: calc(-1 * var(--gutter)); }
+.stack.has-mq .stack__ls { padding-inline: var(--gutter); }
+.stack.has-mq .stack__row > p { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.mq { padding: 10px 0 18px; }
+.mq__track { display: flex; width: max-content; will-change: transform; }
+.mq__set { display: flex; align-items: baseline; flex: none; }
+.mq__item {
+  font: 600 clamp(52px, 8.4vw, 150px)/1.05 var(--display); letter-spacing: -.01em; white-space: nowrap;
+  transition: color .5s var(--ease), -webkit-text-stroke-color .5s var(--ease);
+}
+.mq__item.is-outline { color: transparent; -webkit-text-stroke: 1.5px var(--fg); }
+.mq__item small { font: 400 .16em/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--g); -webkit-text-stroke: 0; vertical-align: super; margin-left: .4em; }
+.mq__sep { font: italic 300 clamp(36px, 5vw, 90px)/1 var(--mono); color: var(--g); padding-inline: .35em; }
+
+.stack__row:hover .mq__item { color: var(--g); }
+.stack__row:hover .mq__item.is-outline { color: transparent; -webkit-text-stroke-color: var(--g); }

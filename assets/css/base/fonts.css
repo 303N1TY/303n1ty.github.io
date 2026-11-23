@@ -1,0 +1,23 @@
+/* Self-hosted display face. Clash Display by Indian Type Foundry, ITF Free Font License (fontshare.com). */
+@font-face {
+  font-family: "Clash Display"; font-weight: 500; font-style: normal; font-display: swap;
+  src: url("../../fonts/clash-display-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Clash Display"; font-weight: 600; font-style: normal; font-display: swap;
+  src: url("../../fonts/clash-display-600.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Clash Display"; font-weight: 700; font-style: normal; font-display: swap;
+  src: url("../../fonts/clash-display-700.woff2") format("woff2");
+}
+
+/* Body / UI face. JetBrains Mono by JetBrains, SIL Open Font License 1.1. Latin subset (from Google Fonts). */
+@font-face {
+  font-family: "JetBrains Mono"; font-weight: 300 800; font-style: normal; font-display: swap;
+  src: url("../../fonts/jetbrains-mono-var.woff2") format("woff2");
+}
+@font-face {
+  font-family: "JetBrains Mono"; font-weight: 300; font-style: italic; font-display: swap;
+  src: url("../../fonts/jetbrains-mono-300-italic.woff2") format("woff2");
+}

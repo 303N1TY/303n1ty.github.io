@@ -1,0 +1,12 @@
+#loader {
+  position: fixed; inset: 0; z-index: 200; background: var(--bg);
+  display: grid; grid-template-columns: 1fr auto; align-content: end; gap: 16px;
+  padding: var(--gutter); color: var(--fg);
+  transition: clip-path 1s var(--ease-in);
+  clip-path: inset(0 0 0 0);
+}
+#loader.is-done { clip-path: inset(0 0 100% 0); }
+.loader__label { font-size: var(--t-xs); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); align-self: end; }
+.loader__count { font: 600 var(--t-xxl)/.8 var(--display); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.loader__bar { grid-column: 1 / -1; height: 1px; background: var(--line); }
+.loader__bar i { display: block; height: 100%; width: 0; background: var(--g); }

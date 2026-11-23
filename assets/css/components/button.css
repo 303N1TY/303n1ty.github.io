@@ -1,0 +1,8 @@
+.btn {
+  display: inline-flex; align-items: center; gap: 14px; padding: 16px 26px; cursor: pointer;
+  background: var(--g); color: #000; border: 0; border-radius: 999px; font-weight: 500;
+  transition: gap .4s var(--ease), background .3s;
+}
+.btn:hover { gap: 26px; background: var(--fg); }
+.link { border-bottom: 1px solid var(--faint); padding-bottom: 2px; transition: border-color .3s, color .3s; }
+.link:hover { color: var(--g); border-color: var(--g); }

@@ -1,0 +1,44 @@
+.hero {
+  position: relative; height: 100svh; min-height: 560px; overflow: hidden;
+  display: grid; grid-template-columns: 1fr 1fr; align-content: end; gap: 24px var(--gutter);
+  padding: 0 var(--gutter) 28px;
+}
+
+
+/* Fallback name (no WebGL). With the field running it stays for screen readers only. */
+.hero__name {
+  position: absolute; left: var(--gutter); right: var(--gutter); top: 50%; translate: 0 -62%;
+  font: 600 var(--t-xxl)/.85 var(--display); letter-spacing: -.03em; text-transform: uppercase;
+  color: var(--g);
+}
+.hero__name span { display: block; }
+.hero__name span + span { color: var(--fg); }
+.has-field .hero__name { width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+.hero__meta, .hero__tag, .hero__scroll, .hero__hint { position: relative; z-index: 1; font-size: var(--t-xs); }
+.hero__meta p { display: flex; gap: 12px; }
+.hero__meta .k { width: 56px; color: var(--muted); }
+.hero__tag { justify-self: end; text-align: right; font-size: var(--t-sm); line-height: 1.5; color: var(--muted); }
+.hero__tag em { font-style: italic; font-weight: 300; }
+.hero__hint {
+  position: absolute; top: 84px; left: var(--gutter); color: var(--muted);
+  display: flex; align-items: center; gap: 10px;
+}
+.hero__hint-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--g); animation: pulse 1.6s infinite; }
+@keyframes pulse { 50% { opacity: .2; } }
+.hero__scroll {
+  grid-column: 1 / -1; color: var(--muted); padding-top: 10px;
+  border-top: 1px solid var(--line); text-align: center;
+}
+.hero__scroll:hover { color: var(--g); }
+
+/* intro choreography after the loader */
+.hero__meta, .hero__tag, .hero__hint, .hero__scroll { transition: opacity 1s .6s var(--ease), transform 1.2s .6s var(--ease); }
+.is-loading .hero__meta, .is-loading .hero__tag, .is-loading .hero__hint, .is-loading .hero__scroll { opacity: 0; transform: translateY(16px); }
+
+@media (max-width: 760px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero__tag { justify-self: start; text-align: left; }
+  .hero__name { font-size: 26vw; }
+}
+@media (hover: none) { .hero__hint { display: none; } }
